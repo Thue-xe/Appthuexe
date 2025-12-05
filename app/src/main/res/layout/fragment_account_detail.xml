@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F5F5F8">
+
+    <!-- HEADER -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#FFFFFF"
+        android:paddingHorizontal="16dp">
+
+        <ImageView
+            android:id="@+id/btnClose"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_arrow_back"
+            android:contentDescription="Back"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tài khoản"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+    <!-- USER INFO -->
+    <LinearLayout
+        android:id="@+id/section_user_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal"
+        android:background="@drawable/bg_card_white"
+        android:padding="12dp"
+        android:gravity="center_vertical"
+        android:elevation="2dp">
+
+        <ImageView
+            android:id="@+id/imgAvatar"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/user"
+            android:background="@drawable/bg_avatar_circle"
+            android:padding="10dp"
+            android:scaleType="centerInside"
+            android:layout_marginEnd="12dp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- USER NAME -->
+            <TextView
+                android:id="@+id/tvUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tên người dùng"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="#000000"/>
+
+            <!-- BIRTHDAY LABEL -->
+            <TextView
+                android:id="@+id/tvBirthLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ngày sinh"
+                android:textSize="13sp"
+                android:textColor="#777777"
+                android:layout_marginTop="2dp"/>
+
+            <!-- BIRTHDAY VALUE -->
+            <TextView
+                android:id="@+id/tvBirthDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--/--/----"
+                android:textSize="13sp"
+                android:textColor="#000000"
+                android:layout_marginTop="2dp"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/btnEditProfile"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/pen"
+            android:contentDescription="Edit"
+            android:clickable="true"
+            android:focusable="true"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="#F0F0F2"/>
+
+    <!-- OPTIONS -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#FFFFFF">
+
+        <!-- GPLX -->
+        <LinearLayout
+            android:id="@+id/row_license"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:id="@+id/label_license"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Giấy phép lái xe"
+                android:textSize="14sp"
+                android:textColor="#000"/>
+
+            <TextView
+                android:id="@+id/verify_license"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Xác thực ngay"
+                android:textSize="13sp"
+                android:textColor="#1976D2"
+                android:layout_marginEnd="28dp"/>
+
+            <ImageView
+                android:id="@+id/icon_license"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_arrow_right"/>
+        </LinearLayout>
+
+        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+
+        <!-- PHONE -->
+        <LinearLayout
+            android:id="@+id/row_phone"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:id="@+id/label_phone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Số điện thoại"
+                android:textSize="14sp"
+                android:textColor="#000"/>
+
+            <TextView
+                android:id="@+id/verify_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Xác thực ngay"
+                android:textSize="13sp"
+                android:textColor="#1976D2"
+                android:layout_marginEnd="28dp"/>
+
+            <ImageView
+                android:id="@+id/icon_phone"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_arrow_right"/>
+        </LinearLayout>
+
+        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+
+        <!-- EMAIL -->
+        <LinearLayout
+            android:id="@+id/row_email"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <TextView
+                android:id="@+id/label_email"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Email"
+                android:textSize="14sp"
+                android:textColor="#000"/>
+
+            <TextView
+                android:id="@+id/verify_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Xác thực ngay"
+                android:textSize="13sp"
+                android:textColor="#1976D2"
+                android:layout_marginEnd="28dp"/>
+
+            <ImageView
+                android:id="@+id/icon_email"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_arrow_right"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
