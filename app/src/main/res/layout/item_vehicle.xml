@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="@drawable/bg_item_vehicle"
+    android:elevation="4dp"
+    android:layout_margin="6dp">
+
+    <!-- Ảnh xe -->
+    <ImageView
+        android:id="@+id/img_vehicle"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_motorbike" />
+
+    <!-- Tên xe -->
+    <TextView
+        android:id="@+id/tv_vehicle_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tên xe"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:paddingTop="8dp"
+        android:textColor="@color/black" />
+
+    <!-- Giá thuê -->
+    <TextView
+        android:id="@+id/tv_vehicle_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="150.000đ / ngày"
+        android:textSize="14sp"
+        android:textColor="@color/green_700"
+        android:paddingTop="4dp" />
+
+    <!-- Địa điểm -->
+    <TextView
+        android:id="@+id/tv_vehicle_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Quận 1, TP.HCM"
+        android:textSize="13sp"
+        android:textColor="@color/gray" />
+
+</LinearLayout>

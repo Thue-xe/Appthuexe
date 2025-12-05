@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="12dp">
+
+    <ImageView
+        android:id="@+id/imgVoucher"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_voucher" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginStart="12dp">
+
+        <TextView
+            android:id="@+id/tvVoucherTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Giảm 20% giá thuê xe"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvVoucherDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Áp dụng tối đa 50.000đ" />
+
+        <TextView
+            android:id="@+id/tvVoucherDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HSD: 01/01/2025 - 31/01/2025"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+</LinearLayout>
