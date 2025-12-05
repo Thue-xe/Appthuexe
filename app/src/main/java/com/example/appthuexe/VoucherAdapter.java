@@ -14,9 +14,12 @@ import java.util.List;
 public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.VoucherViewHolder> {
 
     private List<Voucher> voucherList;
+    private OnVoucherClickListener listener;
 
-    public VoucherAdapter(List<Voucher> voucherList) {
+    // Constructor đầy đủ
+    public VoucherAdapter(List<Voucher> voucherList, OnVoucherClickListener listener) {
         this.voucherList = voucherList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -30,28 +33,46 @@ public class VoucherAdapter extends RecyclerView.Adapter<VoucherAdapter.VoucherV
     @Override
     public void onBindViewHolder(@NonNull VoucherViewHolder holder, int position) {
         Voucher vc = voucherList.get(position);
+        if (vc == null) return;
 
+        // Gán đúng hình theo layout
         holder.imgVoucher.setImageResource(R.drawable.ic_voucher);
+
+        // Gán text
         holder.tvTitle.setText(vc.getTitle());
         holder.tvDesc.setText(vc.getDescription());
-        holder.tvDate.setText("HSD: " + vc.getStartDate() + " - " + vc.getEndDate());
+
+        String date = "HSD: " + vc.getStartDate() + " - " + vc.getEndDate();
+        holder.tvDate.setText(date);
+
+        // Bắt sự kiện chọn voucher
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) listener.onVoucherClick(vc);
+        });
     }
 
     @Override
     public int getItemCount() {
-        return voucherList.size();
+        return voucherList != null ? voucherList.size() : 0;
     }
 
     public static class VoucherViewHolder extends RecyclerView.ViewHolder {
+
         ImageView imgVoucher;
         TextView tvTitle, tvDesc, tvDate;
 
         public VoucherViewHolder(@NonNull View itemView) {
             super(itemView);
+
             imgVoucher = itemView.findViewById(R.id.imgVoucher);
             tvTitle = itemView.findViewById(R.id.tvVoucherTitle);
             tvDesc = itemView.findViewById(R.id.tvVoucherDesc);
             tvDate = itemView.findViewById(R.id.tvVoucherDate);
         }
+    }
+
+    // Interface callback khi bấm voucher
+    public interface OnVoucherClickListener {
+        void onVoucherClick(Voucher voucher);
     }
 }

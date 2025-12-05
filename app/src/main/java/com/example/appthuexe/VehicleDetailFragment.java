@@ -11,22 +11,29 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 public class VehicleDetailFragment extends Fragment {
@@ -34,11 +41,13 @@ public class VehicleDetailFragment extends Fragment {
     private String vehicleId;
 
     private ImageView imageMain, imageLeft, imageRight, imageBack, imgMap;
-    private TextView txtVehicleName, txtLocation, txtPriceDay, txtTotalPrice;
+    private TextView txtVehicleName, txtLocation, txtPriceDay, txtTotalPrice, edtVoucher, tvVoucherApplied;
     private EditText edtStartDate, edtEndDate;
     private Button btnThanhToan;
 
     private long pricePerDay = 0;
+    private Voucher selectedVoucher = null;
+    private FirebaseFirestore db;
 
     public VehicleDetailFragment() {}
 
@@ -60,6 +69,8 @@ public class VehicleDetailFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        db = FirebaseFirestore.getInstance(); // Khởi tạo Firestore
+
         imageMain = view.findViewById(R.id.imageMain);
         imageLeft = view.findViewById(R.id.imageLeft);
         imageRight = view.findViewById(R.id.imageRight);
@@ -74,6 +85,12 @@ public class VehicleDetailFragment extends Fragment {
         edtStartDate = view.findViewById(R.id.edtStartDate);
         edtEndDate = view.findViewById(R.id.edtEndDate);
         btnThanhToan = view.findViewById(R.id.btnThanhToan);
+        edtVoucher = view.findViewById(R.id.edtVoucher);
+        tvVoucherApplied = view.findViewById(R.id.tvVoucherApplied);
+
+        // Disable voucher input initially
+        edtVoucher.setEnabled(false);
+        edtVoucher.setHint("Vui lòng chọn ngày thuê");
 
         loadVehicleDetail();
 
@@ -83,13 +100,65 @@ public class VehicleDetailFragment extends Fragment {
         btnThanhToan.setOnClickListener(v -> proceedToPayment(view));
 
         imgMap.setOnClickListener(v -> openMapByAddress());
+
+        edtVoucher.setOnClickListener(v -> {
+            if (edtVoucher.isEnabled()) {
+                showVoucherBottomSheet();
+            }
+        });
+    }
+
+    private void showVoucherBottomSheet() {
+
+        final BottomSheetDialog dialog = new BottomSheetDialog(requireActivity());
+        View sheet = getLayoutInflater().inflate(R.layout.bottomsheet_voucher, null);
+
+        ImageButton btnClose = sheet.findViewById(R.id.btnCloseSheet);
+        btnClose.setOnClickListener(v -> dialog.dismiss());
+
+        RecyclerView rvVoucher = sheet.findViewById(R.id.rvVoucher);
+        rvVoucher.setLayoutManager(new LinearLayoutManager(requireActivity()));
+
+        // --- ✅ SỬA LỖI: LẤY VOUCHER TỪ FIREBASE ---
+        List<Voucher> voucherList = new ArrayList<>();
+        VoucherAdapter adapter = new VoucherAdapter(voucherList, voucher -> {
+            // Lấy mã voucher
+            edtVoucher.setText(voucher.getCode());
+
+            // Set text voucher đã áp dụng
+            tvVoucherApplied.setText("Đã áp dụng: " + voucher.getTitle());
+
+            // Lưu voucher và tính lại tiền
+            selectedVoucher = voucher;
+            calculateTotalPrice();
+
+            dialog.dismiss();
+        });
+        rvVoucher.setAdapter(adapter);
+
+        // Lắng nghe dữ liệu từ Firebase
+        db.collection("vouchers").addSnapshotListener((snapshots, e) -> {
+            if (e != null) {
+                Toast.makeText(getContext(), "Lỗi tải voucher!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (snapshots != null) {
+                voucherList.clear();
+                voucherList.addAll(snapshots.toObjects(Voucher.class));
+                adapter.notifyDataSetChanged();
+            }
+        });
+        // --- HẾT PHẦN SỬA LỖI ---
+
+        dialog.setContentView(sheet);
+        dialog.show();
     }
 
     // =======================
     // LOAD DỮ LIỆU XE
     // =======================
     private void loadVehicleDetail() {
-        FirebaseFirestore.getInstance().collection("vehicles")
+        db.collection("vehicles")
                 .document(vehicleId)
                 .get()
                 .addOnSuccessListener(this::bindData);
@@ -182,7 +251,10 @@ public class VehicleDetailFragment extends Fragment {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
             if (edtStartDate.getText().toString().isEmpty() ||
-                    edtEndDate.getText().toString().isEmpty()) return;
+                    edtEndDate.getText().toString().isEmpty()) {
+                txtTotalPrice.setText("Tổng 0đ");
+                return;
+            }
 
             long start = sdf.parse(edtStartDate.getText().toString()).getTime();
             long end = sdf.parse(edtEndDate.getText().toString()).getTime();
@@ -191,10 +263,23 @@ public class VehicleDetailFragment extends Fragment {
 
             if (days < 1) {
                 txtTotalPrice.setText("Tổng 0đ");
+                edtVoucher.setEnabled(false);
+                edtVoucher.setText("");
+                edtVoucher.setHint("Ngày thuê không hợp lệ");
+                selectedVoucher = null;
+                tvVoucherApplied.setText("");
                 return;
+            } else {
+                edtVoucher.setEnabled(true);
+                edtVoucher.setHint("Chọn mã voucher");
             }
 
             long total = days * pricePerDay;
+
+            if (selectedVoucher != null) {
+                total = total - (total * selectedVoucher.getDiscountPercent() / 100);
+            }
+
             txtTotalPrice.setText("Tổng " + NumberFormat.getInstance().format(total) + "đ");
 
         } catch (Exception ignored) {}
@@ -235,7 +320,13 @@ public class VehicleDetailFragment extends Fragment {
 
             if (days < 1) return 0;
 
-            return days * pricePerDay;
+            long total = days * pricePerDay;
+
+            if (selectedVoucher != null) {
+                total = total - (total * selectedVoucher.getDiscountPercent() / 100);
+            }
+
+            return total;
 
         } catch (Exception e) {
             return 0;

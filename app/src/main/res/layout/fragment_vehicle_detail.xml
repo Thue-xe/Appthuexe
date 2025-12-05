@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white">
@@ -62,7 +63,11 @@
             android:layout_marginTop="12dp"
             android:textColor="@android:color/black" />
 
-        <!-- Thời gian thuê xe -->
+
+        <!-- ======================= -->
+        <!--     THỜI GIAN THUÊ      -->
+        <!-- ======================= -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -142,7 +147,11 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Vị trí xe (TextView) -->
+
+        <!-- ======================= -->
+        <!--       VỊ TRÍ XE          -->
+        <!-- ======================= -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -169,7 +178,11 @@
                 android:layout_marginTop="4dp" />
         </LinearLayout>
 
-        <!-- Bản đồ -->
+
+        <!-- ======================= -->
+        <!--       BẢN ĐỒ             -->
+        <!-- ======================= -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -194,7 +207,51 @@
                 android:background="#E0E0E0" />
         </LinearLayout>
 
-        <!-- Giá + Thanh toán -->
+
+        <!-- ======================= -->
+        <!--      ÁP MÃ VOUCHER       -->
+        <!-- ======================= -->
+
+        <TextView
+            android:id="@+id/tvVoucherLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mã giảm giá"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            tools:ignore="MissingPrefix" />
+
+        <EditText
+            android:id="@+id/edtVoucher"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Chọn mã voucher"
+            android:padding="12dp"
+            android:focusable="false"
+            android:clickable="true"
+            android:background="@drawable/bg_input_box"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/tvVoucherApplied"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#388E3C"
+            android:textStyle="bold"
+            android:paddingTop="4dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp" />
+
+
+        <!-- ======================= -->
+        <!--      GIÁ + THANH TOÁN   -->
+        <!-- ======================= -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -211,7 +268,7 @@
 
                 <TextView
                     android:id="@+id/txtPriceDay"
-                    android:text="0K/ngày"
+                    android:text="100.000đ/ngày"
                     android:textColor="#4CAF50"
                     android:textStyle="bold"
                     android:textSize="18sp"
@@ -220,7 +277,7 @@
 
                 <TextView
                     android:id="@+id/txtTotalPrice"
-                    android:text="Tổng 0K"
+                    android:text="Tổng 0đ"
                     android:textColor="@android:color/black"
                     android:textSize="14sp"
                     android:layout_width="wrap_content"

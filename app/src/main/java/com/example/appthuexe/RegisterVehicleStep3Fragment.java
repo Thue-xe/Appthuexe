@@ -2,6 +2,7 @@ package com.example.appthuexe;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -10,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,9 +18,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-
-import android.graphics.Typeface;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -35,7 +32,6 @@ public class RegisterVehicleStep3Fragment extends Fragment {
 
     private ImageView imgDocument;
     private Button btnContinue;
-    private LinearLayout stepper;
 
     private Uri documentUri = null;
 
@@ -61,14 +57,13 @@ public class RegisterVehicleStep3Fragment extends Fragment {
 
         imgDocument = view.findViewById(R.id.imgDocument);
         btnContinue = view.findViewById(R.id.btnContinue);
-        stepper = view.findViewById(R.id.stepper);
 
         vehicleId = getArguments() != null ? getArguments().getString("vehicleId") : null;
 
         storage = FirebaseStorage.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        setupStepBar();
+        setupStepBar(view);
 
         // Nút Back
         view.findViewById(R.id.btnBack).setOnClickListener(v -> requireActivity().onBackPressed());
@@ -159,21 +154,24 @@ public class RegisterVehicleStep3Fragment extends Fragment {
     }
 
     /** Step bar của Step 3 */
-    private void setupStepBar() {
+    private void setupStepBar(View view) {
+        // ✅ TÌM TRỰC TIẾP TỪ VIEW GỐC CỦA FRAGMENT
+        ImageView step1Icon = view.findViewById(R.id.icon_info);
+        TextView step1Text = view.findViewById(R.id.text_info);
+        ImageView step2Icon = view.findViewById(R.id.icon_image);
+        TextView step2Text = view.findViewById(R.id.text_image);
+        ImageView step3Icon = view.findViewById(R.id.icon_paper);
+        TextView step3Text = view.findViewById(R.id.text_paper);
 
-        stepper.removeAllViews();
+        // Make previous steps gray
+        step1Icon.setColorFilter(0xFF888888);
+        step1Text.setTextColor(0xFF888888);
+        step2Icon.setColorFilter(0xFF888888);
+        step2Text.setTextColor(0xFF888888);
 
-        View stepView = LayoutInflater.from(getContext())
-                .inflate(R.layout.layout_step_bar, stepper, false);
-
-        // 🔹 LẤY ĐÚNG ID CỦA IMAGEVIEW
-        ImageView step3Icon = stepView.findViewById(R.id.icon_paper);
-        TextView step3Text = stepView.findViewById(R.id.text_paper);
-
+        // Highlight current step
         step3Icon.setColorFilter(0xFF4CAF50);
         step3Text.setTextColor(0xFF4CAF50);
         step3Text.setTypeface(null, Typeface.BOLD);
-
-        stepper.addView(stepView);
     }
 }
