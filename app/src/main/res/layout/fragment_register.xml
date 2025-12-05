@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:context=".RegisterFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".MainActivity">
+
+            <TextView
+                android:id="@+id/tvDK"
+                android:layout_width="200dp"
+                android:layout_height="55dp"
+                android:layout_marginTop="40dp"
+                android:gravity="center"
+                android:text="Đăng Ký"
+                android:textColor="@color/black"
+                android:textSize="34sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvDKSDT"
+                android:layout_width="113dp"
+                android:layout_height="19dp"
+                android:layout_marginTop="10dp"
+                android:text="Số điện thoại"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.174"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDK" />
+
+            <EditText
+                android:id="@+id/edDKSDT"
+                android:layout_width="307dp"
+                android:layout_height="52dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/rounded_edittext"
+                android:ems="10"
+                android:hint="Nhập số điện thoại"
+                android:inputType="text"
+                android:padding="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDKSDT"
+                app:passwordToggleEnabled="true" />
+
+            <TextView
+                android:id="@+id/tvDKMK"
+                android:layout_width="113dp"
+                android:layout_height="19dp"
+                android:layout_marginTop="10dp"
+                android:text="Mật khẩu"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.174"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edDKSDT" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edDKMK"
+                android:layout_width="307dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                app:hintEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDKMK"
+                app:passwordToggleEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtPass"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/rounded_edittext"
+                    android:hint="Nhập mật khẩu"
+                    android:inputType="textPassword"
+                    android:padding="15dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tvNLMK"
+                android:layout_width="130dp"
+                android:layout_height="19dp"
+                android:layout_marginTop="12dp"
+                android:text="Nhập lại mật khẩu"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.185"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edDKMK" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edNLMK"
+                android:layout_width="307dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                app:hintEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvNLMK"
+                app:passwordToggleEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtRePass"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/rounded_edittext"
+                    android:hint="Nhập lại mật khẩu"
+                    android:inputType="textPassword"
+                    android:padding="15dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tvDN"
+                android:layout_width="276dp"
+                android:layout_height="26dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="Bạn đã có tài khoản? Đăng nhập"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/edNLMK"
+                tools:layout_editor_absoluteX="67dp" />
+
+            <View
+                android:id="@+id/vTN"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="32dp"
+                android:background="#E0E0E0"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDN" />
+
+            <Button
+                android:id="@+id/btDK"
+                android:layout_width="300dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/rounded_button_background"
+                android:text="Đăng ký"
+                android:textColor="@color/white"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:backgroundTint="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.495"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vTN" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5"
+    tools:context=".SupportFragment">
+
+    <!-- DANH SÁCH TIN NHẮN -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_chat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/suggestion_bar"
+        android:padding="8dp" />
+
+    <!-- THANH GỢI Ý CÂU HỎI — đặt ngay trên ô nhập -->
+    <HorizontalScrollView
+        android:id="@+id/suggestion_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/input_layout"
+        android:padding="8dp"
+        android:background="@android:color/white"
+        android:elevation="4dp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/layoutSuggestions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Các nút gợi ý sẽ được thêm bằng code Java -->
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- KHUNG NHẬP TIN NHẮN -->
+    <LinearLayout
+        android:id="@+id/input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:background="@android:color/white"
+        android:gravity="center_vertical">
+
+        <EditText
+            android:id="@+id/etQuestion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Nhập tin nhắn..."
+            android:layout_weight="1"
+            android:maxLines="5"
+            android:inputType="textMultiLine"
+            android:background="@drawable/rounded_edittext"
+            android:padding="12dp" />
+
+        <ImageButton
+            android:id="@+id/btnSend"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_send"
+            android:background="?attr/selectableItemBackgroundBorderless" />
+
+    </LinearLayout>
+
+</RelativeLayout>

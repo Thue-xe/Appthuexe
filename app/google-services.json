@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "610675771061",
+    "project_id": "app-thue-xe",
+    "storage_bucket": "app-thue-xe.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:610675771061:android:60eb94ef7e80d4865860fc",
+        "android_client_info": {
+          "package_name": "com.example.appthuexe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "610675771061-47ogqcdjc4enm1sctcnanraljcfgv0t2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.appthuexe",
+            "certificate_hash": "6a50cfcfe3e42a7175878042ca855370411cfd04"
+          }
+        },
+        {
+          "client_id": "610675771061-507bo38e2vg8qd5pvq3mo96aq7ab3mma.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgvSfae8i0KMsiv_5oirX5ExuhaugwrpA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "610675771061-507bo38e2vg8qd5pvq3mo96aq7ab3mma.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

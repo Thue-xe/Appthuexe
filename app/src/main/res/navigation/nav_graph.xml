@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <!-- 1. Login Fragment -->
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.appthuexe.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <!-- SỬA: Thêm action đi từ Login đến ResetPassword -->
+        <action
+            android:id="@+id/action_loginFragment_to_resetPasswordFragment"
+            app:destination="@id/resetPasswordFragment" />
+    </fragment>
+
+    <!-- 2. Register Fragment -->
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.appthuexe.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_registerFragment_to_otpFragment"
+            app:destination="@id/otpFragment" />
+    </fragment>
+
+    <!-- 3. Home Fragment -->
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.appthuexe.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+
+    <!-- 4. OTP Fragment -->
+    <fragment
+        android:id="@+id/otpFragment"
+        android:name="com.example.appthuexe.OtpFragment"
+        android:label="fragment_otp"
+        tools:layout="@layout/fragment_otp" >
+        <action
+            android:id="@+id/action_otpFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
+    <!-- 5. Profile Fragment -->
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.appthuexe.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <!-- SỬA: Thêm action đi từ Profile đến ChangePassword -->
+        <action
+            android:id="@+id/action_profileFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_registerVehicleFragment"
+            app:destination="@id/registerVehicleFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_voucherFragment"
+            app:destination="@id/voucherFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_historyFragment"
+            app:destination="@id/historyFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_accountDetailFragment"
+            app:destination="@id/accountDetailFragment" />
+    </fragment>
+
+    <!-- 6. THÊM MỚI: Reset Password Fragment -->
+    <fragment
+        android:id="@+id/resetPasswordFragment"
+        android:name="com.example.appthuexe.ResetPasswordFragment"
+        android:label="fragment_reset_password"
+        tools:layout="@layout/fragment_reset_password" >
+        <!-- Action quay lại Login sau khi đổi pass thành công -->
+        <action
+            android:id="@+id/action_resetPasswordFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <!-- 7. THÊM MỚI: Change Password Fragment -->
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.example.appthuexe.ChangePasswordFragment"
+        android:label="fragment_change_password"
+        tools:layout="@layout/fragment_change_password" />
+
+    <!-- 8. THÊM MỚI: Các fragment cho menu dưới (để tránh crash) -->
+    <fragment
+        android:id="@+id/rentalFragment"
+        android:name="com.example.appthuexe.RentalFragment"
+        android:label="fragment_rental"
+        tools:layout="@layout/fragment_rental" />
+    <fragment
+        android:id="@+id/supportFragment"
+        android:name="com.example.appthuexe.SupportFragment"
+        android:label="fragment_support"
+        tools:layout="@layout/fragment_support" />
+
+    <!-- Action Đăng xuất (giữ nguyên) -->
+    <action
+        android:id="@+id/action_global_logout_to_loginFragment"
+        app:destination="@id/loginFragment"
+        app:popUpTo="@id/nav_graph"
+        app:popUpToInclusive="true" />
+
+    <fragment
+        android:id="@+id/accountDetailFragment"
+        android:name="com.example.appthuexe.AccountDetailFragment"
+        android:label="Thông tin tài khoản"
+        tools:layout="@layout/fragment_account_detail" />
+
+    <fragment
+        android:id="@+id/registerVehicleFragment"
+        android:name="com.example.appthuexe.RegisterVehicleFragment"
+        tools:layout="@layout/fragment_register_vehicle">
+
+        <action
+            android:id="@+id/action_registerVehicleFragment_to_registerVehicleStep1Fragment"
+            app:destination="@id/registerVehicleStep1Fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/voucherFragment"
+        android:name="com.example.appthuexe.VoucherFragment"
+        android:label="fragment_voucher"
+        tools:layout="@layout/fragment_voucher" />
+
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.example.appthuexe.HistoryFragment"
+        android:label="fragment_history"
+        tools:layout="@layout/fragment_history" />
+    <fragment
+        android:id="@+id/gplxFragment"
+        android:name="com.example.appthuexe.GplxFragment"
+        android:label="GplxFragment"
+        tools:layout="@layout/fragment_gplx" />
+
+    <fragment
+        android:id="@+id/registerVehicleStep1Fragment"
+        android:name="com.example.appthuexe.RegisterVehicleStep1Fragment"
+        android:label="Thông tin xe">
+
+        <action
+            android:id="@+id/action_registerVehicleStep1Fragment_to_registerVehicleStep2Fragment"
+            app:destination="@id/registerVehicleStep2Fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/registerVehicleStep2Fragment"
+        android:name="com.example.appthuexe.RegisterVehicleStep2Fragment"
+        android:label="Hình ảnh xe" >
+
+
+        <action
+            android:id="@+id/action_registerVehicleStep2Fragment_to_registerVehicleStep3Fragment"
+            app:destination="@id/registerVehicleStep3Fragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/registerVehicleStep3Fragment"
+        android:name="com.example.appthuexe.RegisterVehicleStep3Fragment"
+        android:label="Step 3">
+        <argument
+            android:name="vehicleId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_registerVehicleStep3Fragment_to_registerVehicleStep4Fragment"
+            app:destination="@id/registerVehicleStep4Fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/registerVehicleStep4Fragment"
+        android:name="com.example.appthuexe.RegisterVehicleStep4Fragment"
+        android:label="Step 4">
+
+        <argument
+            android:name="vehicleId"
+            app:argType="string" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/vehicleDetailFragment"
+        android:name="com.example.appthuexe.VehicleDetailFragment"
+        android:label="Chi tiết xe"
+        tools:layout="@layout/fragment_vehicle_detail">
+    </fragment>
+
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="com.example.appthuexe.PaymentFragment"
+        tools:layout="@layout/fragment_payment" />
+
+
+</navigation>
+

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="green_500">#4CAF50</color>
+    <color name="green_700">#388E3C</color>
+    <color name="green_50">#E8F5E9</color>
+    <color name="gray">#808080</color>
+    <color name="green_100">#C8E6C9</color>
+    <color name="green_main">#4CAF50</color>
+    <color name="colorGreenButton">#4CAF50</color>
+    <color name="colorInactiveStep">#BDBDBD</color>
+    <color name="colorInfoBackground">#FFEBEE</color>
+    <color name="colorPrimary">#2196F3</color>
+    <color name="colorPrimaryDark">#1976D2</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="green_mioto">#4CAF50</color>
+    <color name="blue_600">#4CAF50</color>
+
+</resources>

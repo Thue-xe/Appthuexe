@@ -1,0 +1,42 @@
+    <resources>
+
+        <string name="login_title">Đăng nhập</string>
+        <string name="phone_number_label">Số điện thoại</string>
+        <string name="phone_number_hint">Nhập số điện thoại</string>
+        <string name="password_label">Mật khẩu</string>
+        <string name="password_hint">Nhập mật khẩu</string>
+        <string name="forgot_password">Quên mật khẩu</string>
+        <string name="no_account_prompt">Bạn chưa có tài khoản?</string>
+        <string name="register_link">Đăng ký</string>
+        <string name="login_button">Đăng nhập</string>
+        <string name="app_name">App Thue Xe</string>
+        <string name="xe_so_button">Xe số</string>
+        <string name="xe_tay_ga_button">Xe tay ga</string>
+        <string name="dia_diem_label">Địa điểm</string>
+        <string name="thoi_gian_thue_label">Thời gian thuê</string>
+        <string name="tim_xe_button">Tìm xe</string>
+        <string name="chuong_trinh_khuyen_mai_title">Chương trình khuyến mãi</string>
+        <string name="btn_dang_ky_cho_thue">Đăng ký</string>
+        <string name="dang_ky_button">Đăng ký</string>
+        <!-- TODO: Remove or change this placeholder text -->
+        <string name="hello_blank_fragment">Hello blank fragment</string>
+        <string name="profile_register_rental">Đăng ký cho thuê xe</string>
+        <string name="profile_driving_license">Giấy phép lái xe</string>
+        <string name="profile_history">Lịch sử thuê xe</string>
+        <string name="profile_vouchers">Quà tặng</string>
+        <string name="profile_change_password">Đổi mật khẩu</string>
+        <string name="profile_logout">Đăng xuất</string>
+
+        <string name="choose_rental_type">Chọn loại cho thuê</string>
+        <string name="increase_income_title">Tăng thu nhập ngay</string>
+        <string name="self_drive_rental">Tự lái</string>
+        <string name="register_car_title">Đăng ký xe</string>
+        <string name="content_description_car_illustration">Hình minh họa xe</string>
+        <string name="content_description_close_button">Đóng màn hình</string>
+        <string name="continue_button">Tiếp tục</string>
+        <string name="simple_fast_procedure">Quy trình đơn giản và nhanh chóng</string>
+        <string name="step_1_info">Bước 1: Thêm thông tin xe</string>
+        <string name="step_2_images">Bước 2: Thêm hình ảnh</string>
+        <string name="step_3_consult">Bước 3: Tư vấn</string>
+        <string name="step_4_start">Bước 4: Bắt đầu cho thuê</string>
+    </resources>
