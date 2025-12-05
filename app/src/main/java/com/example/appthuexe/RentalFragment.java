@@ -1,6 +1,7 @@
 package com.example.appthuexe;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,14 +22,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class RentalFragment extends Fragment {
 
+    private static final String TAG = "RentalFragment";
+
     private Button btnXeSo, btnXeTayGa, btnTimXe;
     private LinearLayout btnLocationPicker;
-    private TextView tvLocation;
+    // Thêm TextView cho Thời gian
+    private TextView tvLocation, tvTime;
     private RecyclerView recyclerView;
 
     private FirebaseFirestore db;
@@ -37,6 +44,9 @@ public class RentalFragment extends Fragment {
     // FILTER
     private String filterType = "Xe số";
     private String filterLocation = "";
+    // Thêm biến cho Thời gian
+    private long filterStartTime = 0;
+    private long filterEndTime = 0;
 
     private List<Vehicle> vehicleList = new ArrayList<>();
     private VehicleAdapter vehicleAdapter;
@@ -55,11 +65,13 @@ public class RentalFragment extends Fragment {
 
         db = FirebaseFirestore.getInstance();
 
+        // Ánh xạ Views
         btnXeSo = view.findViewById(R.id.btn_xe_so);
         btnXeTayGa = view.findViewById(R.id.btn_xe_tay_ga);
         btnTimXe = view.findViewById(R.id.btn_tim_xe);
         btnLocationPicker = view.findViewById(R.id.location_picker);
         tvLocation = view.findViewById(R.id.tv_location);
+        tvTime = view.findViewById(R.id.tv_time); // Ánh xạ tvTime
         recyclerView = view.findViewById(R.id.recycler_view_rental);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -68,17 +80,80 @@ public class RentalFragment extends Fragment {
         vehicleAdapter.setOnItemClickListener(vehicleId -> openVehicleDetail(vehicleId));
         recyclerView.setAdapter(vehicleAdapter);
 
+        // ⭐⭐⭐ BẮT ĐẦU: XỬ LÝ DỮ LIỆU BỘ LỌC TỪ HOMEFRAGMENT ⭐⭐⭐
+        processIncomingFilters(view);
+        // ⭐⭐⭐ KẾT THÚC: XỬ LÝ DỮ LIỆU BỘ LỌC TỪ HOMEFRAGMENT ⭐⭐⭐
+
         loadDistricts();
+
+        // Load xe dựa trên bộ lọc đã thiết lập
         loadVehicles();
+
         setupClickListeners();
+    }
+
+    // Phương thức mới để xử lý dữ liệu từ Bundle
+    private void processIncomingFilters(View view) {
+        if (getArguments() != null) {
+            Bundle bundle = getArguments();
+
+            // 1. Lấy Địa điểm
+            String locationFromHome = bundle.getString("filter_location");
+            if (locationFromHome != null && !locationFromHome.isEmpty()) {
+                filterLocation = locationFromHome;
+                tvLocation.setText(filterLocation);
+            } else {
+                // Sửa lỗi: Sử dụng R.string.default_location_text
+                tvLocation.setText(getString(R.string.default_location_text));
+            }
+
+            // 2. Lấy Loại xe
+            String typeFromHome = bundle.getString("filter_type");
+            if (typeFromHome != null && !typeFromHome.isEmpty()) {
+                // Áp dụng bộ lọc loại xe và cập nhật UI
+                updateVehicleTypeSelection(typeFromHome);
+            } else {
+                // Nếu không có loại xe, cập nhật giao diện mặc định (Xe số)
+                updateVehicleTypeSelection(filterType);
+            }
+
+            // 3. Lấy Thời gian thuê
+            filterStartTime = bundle.getLong("filter_start_time", 0);
+            filterEndTime = bundle.getLong("filter_end_time", 0);
+
+            if (filterStartTime != 0 && filterEndTime != 0) {
+                // Định dạng và hiển thị thời gian thuê
+                // Sử dụng định dạng ngắn gọn hơn cho màn hình lọc
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm, dd/MM", Locale.getDefault());
+                String timeRange = sdf.format(new Date(filterStartTime)) + " - " + sdf.format(new Date(filterEndTime));
+                tvTime.setText(timeRange);
+            } else {
+                // Sửa lỗi: Sử dụng R.string.default_time_text
+                tvTime.setText(getString(R.string.default_time_text));
+            }
+
+        } else {
+            // Trường hợp truy cập trực tiếp, thiết lập mặc định
+            updateVehicleTypeSelection(filterType);
+            // Sửa lỗi: Sử dụng R.string.default_location_text và R.string.default_time_text
+            tvLocation.setText(getString(R.string.default_location_text));
+            tvTime.setText(getString(R.string.default_time_text));
+        }
     }
 
     private void setupClickListeners() {
 
-        btnXeSo.setOnClickListener(v -> updateVehicleTypeSelection("Xe số"));
-        btnXeTayGa.setOnClickListener(v -> updateVehicleTypeSelection("Xe tay ga"));
+        btnXeSo.setOnClickListener(v -> {
+            updateVehicleTypeSelection("Xe số");
+            loadVehicles();
+        });
+        btnXeTayGa.setOnClickListener(v -> {
+            updateVehicleTypeSelection("Xe tay ga");
+            loadVehicles();
+        });
 
         btnLocationPicker.setOnClickListener(v -> showDistrictDialog());
+        // Bạn có thể thêm btnTimePicker.setOnClickListener ở đây nếu muốn người dùng chỉnh sửa thời gian tại màn hình này
 
         btnTimXe.setOnClickListener(v -> loadVehicles());
     }
@@ -86,6 +161,9 @@ public class RentalFragment extends Fragment {
     private void updateVehicleTypeSelection(String type) {
         filterType = type;
 
+        if (getContext() == null) return;
+
+        // Cần đảm bảo các màu này đã được định nghĩa trong colors.xml
         int selected = ContextCompat.getColor(requireContext(), R.color.green_mioto);
         int unselected = ContextCompat.getColor(requireContext(), R.color.green_50);
         int white = ContextCompat.getColor(requireContext(), android.R.color.white);
@@ -102,8 +180,6 @@ public class RentalFragment extends Fragment {
             btnXeSo.setBackgroundTintList(android.content.res.ColorStateList.valueOf(unselected));
             btnXeSo.setTextColor(green);
         }
-
-        loadVehicles();
     }
 
     private void loadDistricts() {
@@ -113,7 +189,8 @@ public class RentalFragment extends Fragment {
                         districtList = (List<String>) doc.get("tphcm_districts");
                         if (districtList == null) districtList = new ArrayList<>();
                     }
-                });
+                })
+                .addOnFailureListener(e -> Log.e(TAG, "Lỗi khi tải địa điểm", e));
     }
 
     private void showDistrictDialog() {
@@ -136,6 +213,7 @@ public class RentalFragment extends Fragment {
     }
 
     private void loadVehicles() {
+        // Bắt đầu truy vấn cơ bản
         db.collection("vehicles")
                 .whereEqualTo("moderationStatus", "approved")
                 .whereEqualTo("trangThai", "available")
@@ -158,9 +236,12 @@ public class RentalFragment extends Fragment {
                         String moTa = doc.getString("moTa");
                         String loaiXe = doc.getString("loaiXe");
 
+                        // Lọc Địa điểm (Client-side)
                         if (!filterLocation.isEmpty()
                                 && (diaDiem == null || !diaDiem.contains(filterLocation)))
                             continue;
+
+                        // TODO: Logic lọc thời gian nên được thêm vào đây (nếu cần)
 
                         vehicleList.add(new Vehicle(
                                 id,
@@ -178,10 +259,13 @@ public class RentalFragment extends Fragment {
                     if (vehicleList.isEmpty()) {
                         Toast.makeText(getContext(), "Không có xe phù hợp", Toast.LENGTH_SHORT).show();
                     }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Lỗi tải xe: ", e);
+                    Toast.makeText(getContext(), "Lỗi tải dữ liệu xe.", Toast.LENGTH_SHORT).show();
                 });
     }
 
-    // ⭐⭐ ĐÃ FIX: Dùng NavController, không dùng FragmentManager ⭐⭐
     private void openVehicleDetail(String id) {
         Bundle bundle = new Bundle();
         bundle.putString("vehicleId", id);

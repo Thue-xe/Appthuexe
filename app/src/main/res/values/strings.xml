@@ -1,5 +1,6 @@
     <resources>
-
+        <string name="default_location_text">Chọn địa điểm thuê</string>
+            <string name="default_time_text">Chọn ngày giờ nhận và trả xe</string>
         <string name="login_title">Đăng nhập</string>
         <string name="phone_number_label">Số điện thoại</string>
         <string name="phone_number_hint">Nhập số điện thoại</string>
