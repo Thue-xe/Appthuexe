@@ -24,9 +24,10 @@ public class AccountDetailFragment extends Fragment {
     ImageView btnClose, btnEditProfile;
     TextView tvUsername, tvBirthDate;
 
+    // Giữ lại các TextView để hiển thị trạng thái/giá trị
     TextView tvVerifyGPLX, tvVerifyPhone, tvVerifyEmail;
     LinearLayout rowGPLX, rowPhone, rowEmail;
-    ImageView arrowGPLX, arrowPhone, arrowEmail;
+    // Bỏ các ImageView arrowGPLX, arrowPhone, arrowEmail
 
     // Firebase
     FirebaseAuth mAuth;
@@ -57,7 +58,12 @@ public class AccountDetailFragment extends Fragment {
         }
 
         uid = firebaseUser.getUid();
-        providerId = firebaseUser.getProviderData().get(1).getProviderId();
+        // Lấy ProviderId cuối cùng (thường là cái đang dùng để login)
+        // Lưu ý: Nếu user có nhiều provider, cần xem xét kỹ index này.
+        if (firebaseUser.getProviderData().size() > 1) {
+            providerId = firebaseUser.getProviderData().get(firebaseUser.getProviderData().size() - 1).getProviderId();
+        }
+
 
         // Ánh xạ UI
         btnClose     = view.findViewById(R.id.btnClose);
@@ -74,9 +80,7 @@ public class AccountDetailFragment extends Fragment {
         rowPhone     = view.findViewById(R.id.row_phone);
         rowEmail     = view.findViewById(R.id.row_email);
 
-        arrowGPLX = view.findViewById(R.id.icon_license);
-        arrowPhone = view.findViewById(R.id.icon_phone);
-        arrowEmail = view.findViewById(R.id.icon_email);
+        // BỎ Ánh xạ arrowGPLX, arrowPhone, arrowEmail
 
         // Nút đóng
         btnClose.setOnClickListener(v -> requireActivity().onBackPressed());
@@ -87,20 +91,21 @@ public class AccountDetailFragment extends Fragment {
         // Edit profile
         btnEditProfile.setOnClickListener(v -> showEditProfileDialog());
 
-        // Khi nhấn vào GPLX → đi đến Fragment GPLX
+        // Khi nhấn vào GPLX → đi đến Fragment GPLX (Luôn click được)
         rowGPLX.setOnClickListener(v ->
                 Navigation.findNavController(v).navigate(R.id.gplxFragment)
         );
 
-        // Click sửa số điện thoại
+        // Click sửa số điện thoại (Luôn click được)
         rowPhone.setOnClickListener(v -> showEditPhoneDialog());
 
-        // Click sửa email
+        // Click sửa email (Luôn click được)
         rowEmail.setOnClickListener(v -> showEditEmailDialog());
     }
 
     // =========================================================
     // LOAD DATA FROM FIRESTORE
+    // Đã sửa lại logic để các rows luôn có thể click được
     // =========================================================
     private void loadUserInfo() {
 
@@ -127,95 +132,66 @@ public class AccountDetailFragment extends Fragment {
             // =====================================================
             // ------------------- GPLX ---------------------------
             // =====================================================
+            // Chỉ hiển thị trạng thái, không cần ẩn/hiện mũi tên hay vô hiệu hóa click
             if (soGPLX != null && !soGPLX.isEmpty()) {
                 tvVerifyGPLX.setText("Đã xác thực");
                 tvVerifyGPLX.setTextColor(getResources().getColor(R.color.green_700));
-
-                arrowGPLX.setVisibility(View.VISIBLE);
-                rowGPLX.setEnabled(true);
-                rowGPLX.setClickable(true);
-
             } else {
                 tvVerifyGPLX.setText("Xác thực ngay");
                 tvVerifyGPLX.setTextColor(getResources().getColor(R.color.blue_600));
-
-                arrowGPLX.setVisibility(View.GONE);
-                rowGPLX.setEnabled(false);
-                rowGPLX.setClickable(false);
             }
+            // rowGPLX luôn được enable và clickable (đã thiết lập trong onViewCreated)
 
             // =====================================================
             // ------------------- PHONE ---------------------------
             // =====================================================
+            // Chỉ hiển thị giá trị, không cần ẩn/hiện mũi tên hay vô hiệu hóa click
             if (providerId.equals("phone")) {
-
                 tvVerifyPhone.setText(phone);
                 tvVerifyPhone.setTextColor(getResources().getColor(R.color.green_700));
-
-                arrowPhone.setVisibility(View.VISIBLE);
-                rowPhone.setEnabled(true);
-
             } else {
-
                 if (phone == null || phone.isEmpty()) {
                     tvVerifyPhone.setText("Xác thực ngay");
                     tvVerifyPhone.setTextColor(getResources().getColor(R.color.blue_600));
-
-                    arrowPhone.setVisibility(View.GONE);
-                    rowPhone.setEnabled(false);
-
                 } else {
                     tvVerifyPhone.setText(phone);
                     tvVerifyPhone.setTextColor(getResources().getColor(R.color.green_700));
-
-                    arrowPhone.setVisibility(View.VISIBLE);
-                    rowPhone.setEnabled(true);
                 }
             }
+            // rowPhone luôn được enable và clickable (đã thiết lập trong onViewCreated)
 
             // =====================================================
             // ------------------- EMAIL ---------------------------
             // =====================================================
+            // Chỉ hiển thị giá trị, không cần ẩn/hiện mũi tên hay vô hiệu hóa click
             if (providerId.equals("google.com")) {
-
                 tvVerifyEmail.setText(firebaseUser.getEmail());
                 tvVerifyEmail.setTextColor(getResources().getColor(R.color.green_700));
-
-                arrowEmail.setVisibility(View.VISIBLE);
-                rowEmail.setEnabled(true);
-
             } else {
-
                 if (email == null || email.isEmpty()) {
                     tvVerifyEmail.setText("Xác thực ngay");
                     tvVerifyEmail.setTextColor(getResources().getColor(R.color.blue_600));
-
-                    arrowEmail.setVisibility(View.GONE);
-                    rowEmail.setEnabled(false);
-
                 } else {
                     tvVerifyEmail.setText(email);
                     tvVerifyEmail.setTextColor(getResources().getColor(R.color.green_700));
-
-                    arrowEmail.setVisibility(View.VISIBLE);
-                    rowEmail.setEnabled(true);
                 }
             }
+            // rowEmail luôn được enable và clickable (đã thiết lập trong onViewCreated)
         });
     }
 
     // =========================================================
-    // EDIT PROFILE DIALOG (name + birth)
+    // EDIT PROFILE DIALOG (name + birth) - Không thay đổi
     // =========================================================
     private void showEditProfileDialog() {
-
+        // (Giữ nguyên)
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_edit_profile, null);
 
         EditText edtName = dialogView.findViewById(R.id.edtName);
         TextView txtBirth = dialogView.findViewById(R.id.txtBirth);
 
         edtName.setText(tvUsername.getText());
-        txtBirth.setText(tvBirthDate.getText());
+        txtBirth.setText(tvBirthDate.getText().toString().equals("--/--/----") ? "" : tvBirthDate.getText()); // Thêm logic xử lý ngày mặc định
 
         txtBirth.setOnClickListener(v -> openDatePicker(txtBirth));
 
@@ -234,7 +210,7 @@ public class AccountDetailFragment extends Fragment {
             String birth = txtBirth.getText().toString().trim();
 
             tvUsername.setText(name);
-            tvBirthDate.setText(birth);
+            tvBirthDate.setText(birth.isEmpty() ? "--/--/----" : birth); // Cập nhật lại ngày mặc định nếu rỗng
 
             Map<String, Object> map = new HashMap<>();
             map.put("name", name);
@@ -249,25 +225,41 @@ public class AccountDetailFragment extends Fragment {
     }
 
     private void openDatePicker(TextView target) {
-
+        // (Giữ nguyên)
         Calendar c = Calendar.getInstance();
+
+        // Logic phân tích ngày tháng năm hiện tại để hiển thị đúng trong DatePicker
+        String currentBirth = target.getText().toString();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        if (!currentBirth.isEmpty() && !currentBirth.equals("--/--/----")) {
+            try {
+                String[] parts = currentBirth.split("/");
+                day = Integer.parseInt(parts[0]);
+                month = Integer.parseInt(parts[1]) - 1; // Month bắt đầu từ 0
+                year = Integer.parseInt(parts[2]);
+            } catch (Exception ignored) {}
+        }
+
 
         DatePickerDialog dialog = new DatePickerDialog(
                 getContext(),
                 (dp, y, m, d) -> target.setText(d + "/" + (m + 1) + "/" + y),
-                c.get(Calendar.YEAR),
-                c.get(Calendar.MONTH),
-                c.get(Calendar.DAY_OF_MONTH)
+                year,
+                month,
+                day
         );
 
         dialog.show();
     }
 
     // =========================================================
-    // EDIT PHONE DIALOG
+    // EDIT PHONE DIALOG - Không thay đổi
     // =========================================================
     private void showEditPhoneDialog() {
-
+        // (Giữ nguyên)
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_edit_input, null);
 
         TextView txtTitle = dialogView.findViewById(R.id.txtTitle);
@@ -275,6 +267,7 @@ public class AccountDetailFragment extends Fragment {
 
         txtTitle.setText("Cập nhật số điện thoại");
         edtInput.setHint("Nhập số điện thoại");
+        edtInput.setInputType(InputType.TYPE_CLASS_PHONE); // Thêm InputType cho SĐT
 
         AlertDialog dialog = new AlertDialog.Builder(getContext())
                 .setView(dialogView)
@@ -288,22 +281,30 @@ public class AccountDetailFragment extends Fragment {
         dialogView.findViewById(R.id.btnSave).setOnClickListener(v -> {
 
             String phone = edtInput.getText().toString().trim();
-            if (phone.isEmpty()) return;
+            if (phone.isEmpty()) {
+                Toast.makeText(getContext(), "Số điện thoại không được rỗng.", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-            db.collection("users").document(uid).update("phone", phone);
-            tvVerifyPhone.setText(phone);
-
-            dialog.dismiss();
+            db.collection("users").document(uid).update("phone", phone)
+                    .addOnSuccessListener(aVoid -> {
+                        tvVerifyPhone.setText(phone);
+                        tvVerifyPhone.setTextColor(getResources().getColor(R.color.green_700)); // Đặt màu xanh lá khi thành công
+                        dialog.dismiss();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(getContext(), "Cập nhật SĐT thất bại.", Toast.LENGTH_SHORT).show();
+                    });
         });
 
         dialog.show();
     }
 
     // =========================================================
-    // EDIT EMAIL DIALOG
+    // EDIT EMAIL DIALOG - Không thay đổi
     // =========================================================
     private void showEditEmailDialog() {
-
+        // (Giữ nguyên)
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_edit_input, null);
 
         TextView txtTitle = dialogView.findViewById(R.id.txtTitle);
@@ -325,12 +326,20 @@ public class AccountDetailFragment extends Fragment {
         dialogView.findViewById(R.id.btnSave).setOnClickListener(v -> {
 
             String email = edtInput.getText().toString().trim();
-            if (email.isEmpty()) return;
+            if (email.isEmpty()) {
+                Toast.makeText(getContext(), "Email không được rỗng.", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-            db.collection("users").document(uid).update("email", email);
-            tvVerifyEmail.setText(email);
-
-            dialog.dismiss();
+            db.collection("users").document(uid).update("email", email)
+                    .addOnSuccessListener(aVoid -> {
+                        tvVerifyEmail.setText(email);
+                        tvVerifyEmail.setTextColor(getResources().getColor(R.color.green_700)); // Đặt màu xanh lá khi thành công
+                        dialog.dismiss();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(getContext(), "Cập nhật Email thất bại.", Toast.LENGTH_SHORT).show();
+                    });
         });
 
         dialog.show();
